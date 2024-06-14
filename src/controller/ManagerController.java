@@ -11,28 +11,27 @@ import java.util.InputMismatchException;
 import java.util.Objects;
 
 import static controller.Main.*;
-import static enam.Status.CREATED;
 
 
 public class ManagerController {
     public static void managerController() {
-            System.out.println("1 CRUD Project \t 2 Add Employee \t 3 Show Employer \t 4 Delete Employer \t5 CRUD Task \t 6 Assign Task \t 0 Exit");
-            String command = inputStr("Choose -> ");
-            switch (command) {
-                case "1" -> projectMenu();
-                case "2" -> addEmployer();
-                case "3" -> showEmployer();
-                case "4" -> deleteEmployer();
-                case "5" -> taskMenu();
-                case "6" -> assignTask();
-                case "0" -> UserController.signIn();
-                default -> managerController();
-            }
+        System.out.println("1 CRUD Project \t 2 Add Employee \t 3 Show Employer \t 4 Delete Employer \t5 CRUD Task \t 6 Assign Task \t 0 Exit");
+        String command = inputStr("Choose -> ");
+        switch (command) {
+            case "1" -> projectMenu();
+            case "2" -> addEmployer();
+            case "3" -> showEmployer();
+            case "4" -> deleteEmployer();
+            case "5" -> taskMenu();
+            case "6" -> assignTask();
+            case "0" -> UserController.signIn();
+            default -> managerController();
+        }
     }
 
     public static void assignTask() {
         ArrayList<Task> tasks = TaskController.read();
-        if(tasks.isEmpty()){
+        if (tasks.isEmpty()) {
             managerController();
         }
         try {
@@ -44,7 +43,7 @@ public class ManagerController {
             ArrayList<User> users = userService.getNoWorkingEmployerProjects(tasks.get(choice).getProjectId());
             int i = 1;
             for (User user : users) {
-                System.out.println(i++ + ". " + user.getUsername() +"  " + user.getRole());
+                System.out.println(i++ + ". " + user.getUsername() + "  " + user.getRole());
             }
             System.out.print("0.Exit\tEnter choice: ");
             int ans = scanInt.nextInt() - 1;
@@ -55,7 +54,7 @@ public class ManagerController {
             Task task = tasks.get(choice);
             task.setStatus(Status.IN_PROGRESS);
             task.setEmployerId(employee.getId());
-            taskService.update(task.getId(),task);
+            taskService.update(task.getId(), task);
             System.out.println("Successfully ✅");
 
         } catch (InputMismatchException | IndexOutOfBoundsException e) {
@@ -69,7 +68,7 @@ public class ManagerController {
 
         try {
             System.out.print("0.Exit\tChoose one: ");
-            int choose = scanInt.nextInt() -1;
+            int choose = scanInt.nextInt() - 1;
             if (choose == -1) {
                 managerController();
             }
@@ -84,7 +83,7 @@ public class ManagerController {
 
     private static ArrayList<User> showEmployer() {
         ArrayList<Project> projects = ProjectController.read();
-        if(projects.isEmpty()){
+        if (projects.isEmpty()) {
             managerController();
         }
         ArrayList<User> users = null;
@@ -99,10 +98,10 @@ public class ManagerController {
             for (User user : users) {
                 System.out.println(i++ + "." + user);
             }
-        }catch (InputMismatchException | IndexOutOfBoundsException e){
+        } catch (InputMismatchException | IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
-        if(Objects.isNull(users)){
+        if (Objects.isNull(users)) {
             managerController();
         }
 
@@ -112,7 +111,7 @@ public class ManagerController {
 
     private static void addEmployer() {
         ArrayList<Project> projects = ProjectController.read();
-        if(projects.isEmpty()){
+        if (projects.isEmpty()) {
             managerController();
         }
         try {
